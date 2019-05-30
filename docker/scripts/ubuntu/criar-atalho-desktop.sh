@@ -5,14 +5,17 @@ usage(){
   cat <<EOF
 usage: ${0##*/} [options]
   Parêmtros Posicionais
-    (1) Código do Locale a ser configurado. default:pt_BR.UTF-8
+    (1) Arquivo
+    (2) Nome para o atalho.
   Options:             
+    --arquivo
+    --nome
+    --pasta-desktop          Pasta de desktop.
     -v,--verbose             Printa toda a execução do arquivo. 
     -h,--help                Print this help message.
 EOF
 
 }
-
 
 if [[ $1 = @(-h|--help) ]];then
   usage

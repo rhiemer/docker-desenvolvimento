@@ -1,16 +1,17 @@
+#!/bin/bash
+set -o errexit
 
 usage(){
   cat <<EOF
 usage: ${0##*/} [options]
   Parêmtros Posicionais
-    (1) Pasta da workspace. default:pt_BR.UTF-8
+    (1) Pasta ou arquivo para loads de imagens
   Options:             
     -v,--verbose             Printa toda a execução do arquivo. 
     -h,--help                Print this help message.
 EOF
 
 }
-
 
 if [[ $1 = @(-h|--help) ]];then
   usage
@@ -37,9 +38,7 @@ done
 set -- "${POSITIONAL[@]}"
 
 PARAM_1="${1}"
-WORK_SPACE_DEFAULT="/root/eclipse-workspace"
-WORK_SPACE=${PARAM_1:-$WORK_SPACE_DEFAULT} 
 
-cd $WORK_SPACE
-find . -maxdepth 2  -not -path *.metadata* -not -path . -exec rm -rf {} \;
+ARQUIVO="$PARAM_1"
 
+find "$ARQUIVO" -type f -exec echo "Load da imagem {}" && echo "" && docker load -i {} \;
