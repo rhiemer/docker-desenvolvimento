@@ -24,6 +24,21 @@ while [[ $# -gt 0 ]]
 do
   key="$1"
   case $key in     
+     --arquivo)
+      ARQUIVO="$2"
+      shift # past argument
+      shift # past value
+      ;;
+     --nome)
+      SENHA="$2"
+      shift # past argument
+      shift # past value
+      ;;
+      --pasta-desktop)
+      PASTA_DESKTOP="$2"
+      shift # past argument
+      shift # past value
+      ;;
       -v|--verbose)
       set -x
       shift # past argument      
@@ -38,9 +53,20 @@ done
 # restore positional parameters
 set -- "${POSITIONAL[@]}"
 
+PASTA_DESKTOP_DEFAULT="/headless/Desktop"
 
-PASTA_DESKTOP="/headless/Desktop"
+PARAM_1="${1}"
+PARAM_2="${2}"
 
-FILE_LN="$PASTA_DESKTOP/$NOME"
+ARQUIVO="${ARQUIVO:-$PARAM_1}"
+NOME="${NOME:-$PARAM_2}"
 
-ln -sv "$ARQUIVO" "$FILE_LN"
+PASTA_DESKTOP=${PASTA_DESKTOP:-$PASTA_DESKTOP_DEFAULT}
+_BASENAME=`basename $NOME`
+_NAME="${BASENAME%.*}"
+
+P_NAME=${NOME:-$_NAME}
+
+FILE_LN="$PASTA_DESKTOP/$P_NAME"
+
+ln -sfv "$ARQUIVO" "$FILE_LN"
