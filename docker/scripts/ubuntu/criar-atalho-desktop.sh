@@ -5,7 +5,7 @@ usage(){
   cat <<EOF
 usage: ${0##*/} [options]
   Parêmtros Posicionais
-    (1) Código do TimeZone a ser configurado. default:America/Sao_Paulo
+    (1) Código do Locale a ser configurado. default:pt_BR.UTF-8
   Options:             
     -v,--verbose             Printa toda a execução do arquivo. 
     -h,--help                Print this help message.
@@ -38,13 +38,9 @@ done
 # restore positional parameters
 set -- "${POSITIONAL[@]}"
 
-PARAM_1="${1}"
 
-TIME_ZONE_DEFAULT="America/Sao_Paulo"
-TIME_ZONE="${PARAM_1:-$TIME_ZONE_DEFAULT}"
-ARQUIVO_LOCALTIME="/etc/localtime"
-PASTA_ZONEINFO="/usr/share/zoneinfo"
-ARQUIVO_ZONEINFO="$PASTA_ZONEINFO/$TIME_ZONE"
+PASTA_DESKTOP="/headless/Desktop"
 
-cp -rfv "$ARQUIVO_LOCALTIME" "$ARQUIVO_LOCALTIME.bkp"
-ln -sfv "$ARQUIVO_ZONEINFO" "$ARQUIVO_LOCALTIME"
+FILE_LN="$PASTA_DESKTOP/$NOME"
+
+ln -sv "$ARQUIVO" "$FILE_LN"
