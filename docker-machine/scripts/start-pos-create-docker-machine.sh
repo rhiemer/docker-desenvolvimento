@@ -59,6 +59,11 @@ do
       shift # past argument
       shift # past value
       ;;
+      --pasta-machines)
+       PASTA_MACHINES="$2"
+       shift # past argument
+       shift # past value
+      ;;
       --http-proxy)
       HTTP_PROXY=true
       shift # past argument
@@ -94,32 +99,13 @@ PARAM_1="${1}"
 DOCKER_MACHINE_NAME="${DOCKER_MACHINE_NAME:-$PARAM_1}"
 VM=${DOCKER_MACHINE_NAME-default}
 DOCKER_MACHINE="${DOCKER_TOOLBOX_INSTALL_PATH}\docker-machine.exe"
-DOCKER_MACHINE_VIRTUALIZACAO=${DOCKER_MACHINE_VIRTUALIZACAO:-"virtualbox"}
 
-#clear all_proxy if not socks address
-if  [[ $ALL_PROXY != socks* ]]; then
-  unset ALL_PROXY
-fi
-if  [[ $all_proxy != socks* ]]; then
-  unset all_proxy
+VM_STATUS="$( set +e ; "${DOCKER_MACHINE}" status "${VM}" )"
+if [ "${VM_STATUS}" != "Running" ]; then
+  "${DOCKER_MACHINE}" start "${VM}"
+  yes | "${DOCKER_MACHINE}" regenerate-certs "${VM}"
 fi
 
-if [ ! -f "${DOCKER_MACHINE}" ]; then
-  echo "Docker Machine is not installed. Please re-run the Toolbox Installer and try again."
-  exit 1
-fi
+eval "$("${DOCKER_MACHINE}" env --shell=bash --no-proxy "${VM}" | sed -e "s/export/SETX/g" | sed -e "s/=/ /g")" &> /dev/null #for persistent Environment Variables, available in next sessions
+eval "$("${DOCKER_MACHINE}" env --shell=bash --no-proxy "${VM}")" #for transient Environment Variables, available in current session
 
-set -e
-
-#set proxy variables inside virtual docker machine if they exist in host environment
-if [ "${HTTP_PROXY}" ]; then
-  PROXY_ENV="$PROXY_ENV --engine-env HTTP_PROXY=$HTTP_PROXY"
-fi
-if [ "${HTTPS_PROXY}" ]; then
-  PROXY_ENV="$PROXY_ENV --engine-env HTTPS_PROXY=$HTTPS_PROXY"
-fi
-if [ "${NO_PROXY}" ]; then
-  PROXY_ENV="$PROXY_ENV --engine-env NO_PROXY=$NO_PROXY"
-fi
-
-"${DOCKER_MACHINE}" create -d $DOCKER_MACHINE_VIRTUALIZACAO $DOCKER_MACHINE_CREATE_OPTIONS $PROXY_ENV "${VM}"
