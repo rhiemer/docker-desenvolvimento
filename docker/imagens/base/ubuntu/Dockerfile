@@ -1,8 +1,11 @@
-ARG IMAGEM_BASE=""
+ARG IMAGEM_BASE="consol/ubuntu-xfce-vnc"
 
 FROM $IMAGEM_BASE
 
 USER root
+
+RUN apt update \
+    apt subversion
 
 ARG SCRIPTS_DOKER_HOST="scripts"
 ARG SCRIPTS_DOKER="/etc/scripts/docker" 
@@ -83,8 +86,7 @@ RUN find $SCRIPTS_DOKER/set-version-java.sh -type f  \
       -exec sh -c 'tr -d "\r" < "{}" > "{}".new && mv "{}".new "{}"' -- {} \; \    
       -exec chmod +x {} \; \    
     && cd $SCRIPTS_DOKER \ 
-    && ./set-version-java.sh "$JAVA_VERSION"
-        
+    && ./set-version-java.sh "$JAVA_VERSION"        
 
 COPY $SCRIPTS_DOKER_HOST/install-maven.sh $SCRIPTS_DOKER/
 
@@ -92,6 +94,4 @@ RUN find $SCRIPTS_DOKER/install-maven.sh -type f  \
       -exec sh -c 'tr -d "\r" < "{}" > "{}".new && mv "{}".new "{}"' -- {} \; \    
       -exec chmod +x {} \; \    
     && cd $SCRIPTS_DOKER \ 
-    && ./install-maven.sh      
-
-
+    && ./install-maven.sh

@@ -35,6 +35,5 @@ do
   esac
 done
 
-apt update
 apt install maven
 mvn -version
