@@ -43,8 +43,13 @@ PARAM_1="${1}"
 JAVANAME_DEFAULT="1.8"
 JAVANAME="$PARAM_1"
 
-JAVA_NAME_SET=$( update-java-alternatives - l | grep $JAVANAME | cut -d ' '  -f 1 )
-if 
+JAVA_NAME_SET=$( update-java-alternatives -l | grep $JAVANAME | cut -d ' '  -f 1 )
+if [ ! -z "${JAVA_NAME_SET// }" ]; then 
+  update-java-alternatives -s "$JAVA_NAME_SET"
+else
+  echo "Não encontrado nenhuma java alternativa para $JAVANAME" 1>&2
+  exit 1
+fi
 
 
 
