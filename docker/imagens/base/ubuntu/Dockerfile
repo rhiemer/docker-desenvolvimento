@@ -5,7 +5,7 @@ FROM $IMAGEM_BASE
 USER root
 
 RUN apt update \
-    apt subversion
+    apt install subversion
 
 ARG SCRIPTS_DOKER_HOST="scripts"
 ARG SCRIPTS_DOKER="/etc/scripts/docker" 
