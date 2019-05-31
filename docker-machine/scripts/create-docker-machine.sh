@@ -7,7 +7,7 @@ usage(){
   cat <<EOF
 usage: ${0##*/} [options]
   Parêmtros Posicionais
-    (1) Nome da docker-machine. ['default']
+    (1) Nome da docker-machine. 
   Options:       
     -v,--verbose             Printa toda a execução do arquivo. 
     -h,--help                Print this help message.
@@ -91,8 +91,7 @@ set -- "${POSITIONAL[@]}"
 
 PARAM_1="${1}"
 
-DOCKER_MACHINE_NAME="${DOCKER_MACHINE_NAME:-$PARAM_1}"
-VM=${DOCKER_MACHINE_NAME-default}
+VM="${DOCKER_MACHINE_NAME:-$PARAM_1}"
 DOCKER_MACHINE="${DOCKER_TOOLBOX_INSTALL_PATH}\docker-machine.exe"
 DOCKER_MACHINE_VIRTUALIZACAO=${DOCKER_MACHINE_VIRTUALIZACAO:-"virtualbox"}
 

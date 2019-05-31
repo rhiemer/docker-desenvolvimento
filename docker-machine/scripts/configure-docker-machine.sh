@@ -7,7 +7,7 @@ usage(){
   cat <<EOF
 usage: ${0##*/} [options]
   Parêmtros Posicionais
-    (1) Nome da docker-machine. ['default']
+    (1) Nome da docker-machine. 
   Options:       
     -v,--verbose             Printa toda a execução do arquivo. 
     -h,--help                Print this help message.
@@ -95,17 +95,10 @@ done
 set -- "${POSITIONAL[@]}"
 
 PARAM_1="${1}"
-
-DOCKER_MACHINE_NAME="${DOCKER_MACHINE_NAME:-$PARAM_1}"
-VM=${DOCKER_MACHINE_NAME-default}
+VM="${PARAM_1}"
 DOCKER_MACHINE="${DOCKER_TOOLBOX_INSTALL_PATH}\docker-machine.exe"
 
-VM_STATUS="$( set +e ; "${DOCKER_MACHINE}" status "${VM}" )"
-if [ "${VM_STATUS}" != "Running" ]; then
-  "${DOCKER_MACHINE}" start "${VM}"
-  yes | "${DOCKER_MACHINE}" regenerate-certs "${VM}"
-fi
-
+yes | "${DOCKER_MACHINE}" regenerate-certs "${VM}"
 eval "$("${DOCKER_MACHINE}" env --shell=bash --no-proxy "${VM}" | sed -e "s/export/SETX/g" | sed -e "s/=/ /g")" &> /dev/null #for persistent Environment Variables, available in next sessions
 eval "$("${DOCKER_MACHINE}" env --shell=bash --no-proxy "${VM}")" #for transient Environment Variables, available in current session
 

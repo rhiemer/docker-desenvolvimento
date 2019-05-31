@@ -5,7 +5,7 @@ usage(){
   cat <<EOF
 usage: ${0##*/} [options]
   Parêmtros Posicionais
-    (1) Nome da docker-machine. ['default']
+    (1) Nome da docker-machine. 
   Options:       
     -v,--verbose             Printa toda a execução do arquivo. 
     -h,--help                Print this help message.

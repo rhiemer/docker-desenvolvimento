@@ -7,7 +7,7 @@ usage(){
   cat <<EOF
 usage: ${0##*/} [options]
   Parêmtros Posicionais
-    (1) Nome da docker-machine. ['default']
+    (1) Nome da docker-machine.
   Options:       
     -v,--verbose             Printa toda a execução do arquivo. 
     -h,--help                Print this help message.
@@ -53,5 +53,16 @@ HOST="$PARAM_3"
 
 P_OPTIONS=${OPTIONS:- --automount}
 
+if [ ! -z "$VBOX_MSI_INSTALL_PATH" ]; then
+  VBOXMANAGE="${VBOX_MSI_INSTALL_PATH}VBoxManage.exe"
+else
+  VBOXMANAGE="${VBOX_INSTALL_PATH}VBoxManage.exe"
+fi
+
+if [ ! -f "${VBOXMANAGE}" ]; then
+  echo "VirtualBox is not installed. Please re-run the Toolbox Installer and try again."
+  exit 1
+fi
+
 echo "Criando compartilhamento $NAME da pasta $HOST na maquina virtual $VM."
-vboxmanage sharedfolder add "$VM" --name "$NAME" --hostpath "$HOST" $P_OPTIONS
+"${VBOXMANAGE}" sharedfolder add "$VM" --name "$NAME" --hostpath "$HOST" $P_OPTIONS

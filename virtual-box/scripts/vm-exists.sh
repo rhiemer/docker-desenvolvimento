@@ -1,29 +1,15 @@
-#!/bin/bash
-set -o errexit
-
-trap '[ "$?" -eq 0 ] || echo "Looks like something went wrong in step ´$STEP´"' EXIT
 
 usage(){
   cat <<EOF
 usage: ${0##*/} [options]
   Parêmtros Posicionais
-    (1) Nome da docker-machine. 
+    (1) Nome da maquina virtual.
   Options:       
     -v,--verbose             Printa toda a execução do arquivo. 
     -h,--help                Print this help message.
 EOF
 
 }
-
-#Quick Hack: used to convert e.g. "C:\Program Files\Docker Toolbox" to "/c/Program Files/Docker Toolbox"
-win_to_unix_path(){ 
-	wd="$(pwd)"
-	cd "$1"
-		the_path="$(pwd)"
-	cd "$wd"
-	echo $the_path
-}
-
 
 if [[ $1 = @(-h|--help) ]];then
   usage
@@ -46,10 +32,24 @@ do
   esac
 done
 
+# restore positional parameters
+set -- "${POSITIONAL[@]}"
+
 PARAM_1="${1}"
 
-VM="${DOCKER_MACHINE_NAME:-$PARAM_1}"
-DOCKER_MACHINE="${DOCKER_TOOLBOX_INSTALL_PATH}\docker-machine.exe"
+VM="$PARAM_1"
+if [ ! -z "$VBOX_MSI_INSTALL_PATH" ]; then
+  VBOXMANAGE="${VBOX_MSI_INSTALL_PATH}VBoxManage.exe"
+else
+  VBOXMANAGE="${VBOX_INSTALL_PATH}VBoxManage.exe"
+fi
 
-VM_STATUS="$( set +e ; "${DOCKER_MACHINE}" status "${VM}" )"
-echo $VM_STATUS
+"${VBOXMANAGE}" list vms | grep \""${VM}"\" &> /dev/null
+VM_EXISTS_CODE=$?
+
+if [ $VM_EXISTS_CODE -eq 0 ]; then
+  return 0
+else
+  echo "${VM} não existe."
+  return 1
+fi
