@@ -5,21 +5,12 @@ usage(){
   cat <<EOF
 usage: ${0##*/} [options]
   Parêmtros Posicionais
-    (1) Nome da docker-machine. 
-  Options:       
+    (1) Código do TimeZone a ser configurado. default:America/Sao_Paulo
+  Options:             
     -v,--verbose             Printa toda a execução do arquivo. 
     -h,--help                Print this help message.
 EOF
 
-}
-
-#Quick Hack: used to convert e.g. "C:\Program Files\Docker Toolbox" to "/c/Program Files/Docker Toolbox"
-win_to_unix_path(){ 
-	wd="$(pwd)"
-	cd "$1"
-		the_path="$(pwd)"
-	cd "$wd"
-	echo $the_path
 }
 
 
@@ -34,8 +25,8 @@ do
   key="$1"
   case $key in     
       -v|--verbose)
-      set -x      
-      shift # past argument                  
+      set -x
+      shift # past argument      
       ;;
       *)    # unknown option
       POSITIONAL+=("$1") # save it in an array for later
@@ -44,10 +35,16 @@ do
   esac
 done
 
+# restore positional parameters
+set -- "${POSITIONAL[@]}"
+
 PARAM_1="${1}"
 
-VM="${DOCKER_MACHINE_NAME:-$PARAM_1}"
-DOCKER_MACHINE="${DOCKER_TOOLBOX_INSTALL_PATH}\docker-machine.exe"
+JAVANAME_DEFAULT="1.8"
+JAVANAME="$PARAM_1"
 
-VM_STATUS="$( set +e ; "${DOCKER_MACHINE}" status "${VM}" )"
-echo $VM_STATUS
+JAVA_NAME_SET=$( update-java-alternatives - l | grep $JAVANAME | cut -d ' '  -f 1 )
+if 
+
+
+

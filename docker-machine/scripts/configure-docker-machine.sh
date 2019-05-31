@@ -1,8 +1,6 @@
 #!/bin/bash
 set -o errexit
 
-trap '[ "$?" -eq 0 ] || echo "Looks like something went wrong in step ´$STEP´"' EXIT
-
 usage(){
   cat <<EOF
 usage: ${0##*/} [options]

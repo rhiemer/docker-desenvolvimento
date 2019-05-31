@@ -44,6 +44,11 @@ else
   VBOXMANAGE="${VBOX_INSTALL_PATH}VBoxManage.exe"
 fi
 
+if [ ! -f "${VBOXMANAGE}" ]; then
+  echo "VirtualBox is not installed. Please re-run the Toolbox Installer and try again."
+  exit 1
+fi
+
 "${VBOXMANAGE}" list vms | grep \""${VM}"\" &> /dev/null
 VM_EXISTS_CODE=$?
 
