@@ -43,7 +43,7 @@ set -- "${POSITIONAL[@]}"
 #http://www.webupd8.org/2012/01/install-oracle-java-jdk-7-in-ubuntu-via.html
 add-apt-repository ppa:openjdk-r/ppa  
 apt-get update   
-apt-get install openjdk-7-jdk
+apt-get install -y openjdk-7-jdk
 
 add-apt-repository ppa:webupd8team/java
 apt-get update
