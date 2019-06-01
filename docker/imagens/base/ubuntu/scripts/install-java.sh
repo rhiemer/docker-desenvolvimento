@@ -38,7 +38,13 @@ done
 # restore positional parameters
 set -- "${POSITIONAL[@]}"
 
+#TO-DO: instalar java 7 da oracle. 
+#Instalando o openjdk para o java7 pois a versão da oracle não estar mais disponível para downloads.
+#http://www.webupd8.org/2012/01/install-oracle-java-jdk-7-in-ubuntu-via.html
+sudo add-apt-repository ppa:openjdk-r/ppa  
+sudo apt-get update   
+sudo apt-get install openjdk-7-jdk  
+
 add-apt-repository ppa:webupd8team/java
 apt-get update
-apt-get install oracle-java7-installer
-apt-get install oracle-java8-installer
+apt-get install -y oracle-java8-installer oracle-java8-set-default

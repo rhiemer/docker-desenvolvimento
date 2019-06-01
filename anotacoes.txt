@@ -1,4 +1,82 @@
+usage(){
+  cat <<EOF
+usage: ${0##*/} [options]
+  Parêmtros Posicionais
+    (1) Código do TimeZone a ser configurado. default:America/Sao_Paulo
+  Options:             
+    -v,--verbose             Printa toda a execução do arquivo. 
+    -h,--help                Print this help message.
+EOF
+
+}
+
+
+if [[ $1 = @(-h|--help) ]];then
+  usage
+  exit 0
+fi
+
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+  key="$1"
+  case $key in     
+     --usuario)
+      USUARIO="$2"
+      shift # past argument
+      shift # past value
+      ;;
+     --senha)
+      SENHA="$2"
+      shift # past argument
+      shift # past value
+      ;;
+      --protocolo)
+      PROTOCOLO="$2"
+      shift # past argument
+      shift # past value
+      ;;
+      --protocolo-proxy)
+      PROTOCOLO_PROXY="$2"
+      shift # past argument
+      shift # past value
+      ;;
+      --host)
+      HOST="$2"
+      shift # past argument
+      shift # past value
+      ;;
+      --pasta-conf-proxy)
+      PASTA_CONF_PROXY="$2"
+      shift # past argument
+      shift # past value
+      ;;
+      --file-name-conf-proxy)
+      FILE_NAME_CONF_PROXY="$2"
+      shift # past argument
+      shift # past value
+      ;;
+      --file-conf-proxy)
+      FILE_CONF_PROXY="$2"
+      shift # past argument
+      shift # past value
+      ;;
+      -v|--verbose)
+      set -x
+      shift # past argument      
+      ;;
+      *)    # unknown option
+      POSITIONAL+=("$1") # save it in an array for later
+      shift # past argument
+      ;;
+  esac
+done
+
+# restore positional parameters
+set -- "${POSITIONAL[@]}"
+
 cd /C/Users/e-rhiemer/desenvolvimento/docker-desenvolvimento/docker/imagens/base/ubuntu/scripts
+docker build . -t sefaz/desenvolvedor/ubuntu-vnc
 
 Looking for git in: C:\Program Files\Git\cmd\git.exe
 Using git 2.9.0.windows.1 from C:\Program Files\Git\cmd\git.exe
