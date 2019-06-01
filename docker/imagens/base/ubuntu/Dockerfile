@@ -4,8 +4,10 @@ FROM $IMAGEM_BASE
 
 USER root
 
-RUN apt update \
-    apt install subversion
+RUN apt-get update ; \
+    apt-get -y install \ 
+        subversion \
+        software-properties-common
 
 ARG SCRIPTS_DOKER_HOST="scripts"
 ARG SCRIPTS_DOKER="/etc/scripts/docker" 
@@ -46,8 +48,8 @@ RUN find $SCRIPTS_DOKER/change-timezone.sh -type f  \
 
 COPY $SCRIPTS_DOKER_HOST/configurar-proxy.sh $SCRIPTS_DOKER/
 
-ARG USUARIO_PROXY
-ARG SENHA_PROXY
+ARG USUARIO_PROXY="e-rhiemer"
+ARG SENHA_PROXY="numsey@1"
 ARG HOST_PROXY="proxy.sefaz.sefnet:3128"
 ARG PROTOCOLO_PROXY="http"
 

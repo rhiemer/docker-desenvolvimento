@@ -6,17 +6,8 @@ usage(){
   cat <<EOF
 usage: ${0##*/} [options]
   Parêmtros Posicionais
-    (1) Usuário do proxy
-    (2) Senha do proxy
-  Options:       
-    --usuario                Usuário do proxy.
-    --senha                  Senha do proxy.
-    --protocolo              Protocolo da url do proxy. default: http
-    --protocolo-proxy        Protocolo do proxy. default:--protocolo
-    --host                   Host do proxy. default: proxy.sefaz.sefnet:3128
-    --pasta-conf-proxy       Pasta do arquivo de configuração do proxy. default: /etc/apt
-    --file-name-conf-proxy   Nome do arquivo de configuração do proxy. default: proxy_http.proxy
-    --file-proxy             Caminho completo do arquivo de configuração do proxy.
+    (1) Código do TimeZone a ser configurado. default:America/Sao_Paulo
+  Options:             
     -v,--verbose             Printa toda a execução do arquivo. 
     -h,--help                Print this help message.
 EOF
@@ -108,9 +99,9 @@ FILE_CONF_PROXY="${FILE_CONF_PROXY:-$PASTA_CONF_PROXY/$FILE_NAME_CONF_PROXY}"
 PROTOCOLO_PROXY="${PROTOCOLO_PROXY:-$PROTOCOLO}"
 
 URL="${PROTOCOLO:+$PROTOCOLO://}"
-URL="${USUARIO:+$URL$USUARIO}"
-URL="${SENHA:+$URL:$SENHA}"
-([ ! -z "${USUARIO// }" ] || [ ! -z "${SENHA// }" ]) && URL="$URL@" 
-URL="${HOST:+$URL$HOST}"
+URL="$URL$USUARIO"
+URL="$URL${SENHA:+:$SENHA}"
+( [ ! -z "${USUARIO// }${SENHA// }" ] ) && URL="$URL@"
+URL="$URL$HOST"
 
-echo "Acquire::$PROTOCOLO_PROXY::Proxy \"$URL;\" > $FILE_CONF_PROXY
+echo "Acquire::$PROTOCOLO_PROXY::Proxy \"$URL;\"" > $FILE_CONF_PROXY

@@ -38,7 +38,6 @@ done
 # restore positional parameters
 set -- "${POSITIONAL[@]}"
 
-apt-get update
 add-apt-repository ppa:webupd8team/java
 apt-get update
 apt-get install oracle-java7-installer

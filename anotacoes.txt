@@ -1,3 +1,5 @@
+cd /C/Users/e-rhiemer/desenvolvimento/docker-desenvolvimento/docker/imagens/base/ubuntu/scripts
+
 Looking for git in: C:\Program Files\Git\cmd\git.exe
 Using git 2.9.0.windows.1 from C:\Program Files\Git\cmd\git.exe
 > git rev-parse --show-toplevel

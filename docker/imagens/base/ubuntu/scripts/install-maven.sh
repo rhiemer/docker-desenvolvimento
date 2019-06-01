@@ -35,5 +35,5 @@ do
   esac
 done
 
-apt install maven
+apt-get install -y maven
 mvn -version
