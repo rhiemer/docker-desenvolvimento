@@ -49,6 +49,7 @@ if [ ! -z "${JAVA_NAME_SET// }" ]; then
   update-java-alternatives -s "$JAVA_NAME_SET"
 else
   echo "Não encontrado nenhuma java alternativa para $JAVANAME" 1>&2
+  update-java-alternatives -l
   exit 1
 fi
 
