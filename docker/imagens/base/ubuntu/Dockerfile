@@ -17,6 +17,31 @@ ENV SCRIPTS_DOKER_HOST="$SCRIPTS_DOKER_HOST" \
 
 RUN mkdir -pv $SCRIPTS_DOKER
 
+COPY $SCRIPTS_DOKER_HOST/remover-image-desktop-background.sh $SCRIPTS_DOKER/
+
+RUN find $SCRIPTS_DOKER/remover-image-desktop-background.sh -type f  \      
+      -exec sh -c 'tr -d "\r" < "{}" > "{}".new && mv "{}".new "{}"' -- {} \; \    
+      -exec chmod +x {} \; \    
+    && cd $SCRIPTS_DOKER \
+    && ./remover-image-desktop-background.sh
+
+COPY $SCRIPTS_DOKER_HOST/desinstalar-chromium.sh $SCRIPTS_DOKER/
+
+RUN find $SCRIPTS_DOKER/desinstalar-chromium.sh -type f  \      
+      -exec sh -c 'tr -d "\r" < "{}" > "{}".new && mv "{}".new "{}"' -- {} \; \    
+      -exec chmod +x {} \; \    
+    && cd $SCRIPTS_DOKER \
+    && ./desinstalar-chromium.sh
+
+COPY $SCRIPTS_DOKER_HOST/instalar-chrome.sh $SCRIPTS_DOKER/
+
+RUN find $SCRIPTS_DOKER/instalar-chrome.sh -type f  \      
+      -exec sh -c 'tr -d "\r" < "{}" > "{}".new && mv "{}".new "{}"' -- {} \; \    
+      -exec chmod +x {} \; \    
+    && cd $SCRIPTS_DOKER \
+    && ./instalar-chrome.sh  
+
+
 COPY $SCRIPTS_DOKER_HOST/change-locale.sh $SCRIPTS_DOKER/
 
 ARG LOCALE="pt_BR" 
@@ -46,54 +71,5 @@ RUN find $SCRIPTS_DOKER/change-timezone.sh -type f  \
     && cd $SCRIPTS_DOKER \
     && ./change-timezone.sh "$TIMEZONE"
 
-COPY $SCRIPTS_DOKER_HOST/configurar-proxy.sh $SCRIPTS_DOKER/
-
-ARG USUARIO_PROXY="e-rhiemer"
-ARG SENHA_PROXY="numsey@1"
-ARG HOST_PROXY="proxy.sefaz.sefnet:3128"
-ARG PROTOCOLO_PROXY="http"
-
-ENV USUARIO_PROXY="$USUARIO_PROXY" \
-    SENHA_PROXY="$SENHA_PROXY" \
-    HOST_PROXY="$HOST_PROXY" \
-    PROTOCOLO_PROXY="$PROTOCOLO_PROXY" \
-    FILE_NAME_CONF_PROXY="proxy_$PROTOCOLO_PROXY.conf"
-
-RUN find $SCRIPTS_DOKER/configurar-proxy.sh -type f  \ 
-      -exec sh -c 'tr -d "\r" < "{}" > "{}".new && mv "{}".new "{}"' -- {} \; \    
-      -exec chmod +x {} \; \    
-    && cd $SCRIPTS_DOKER \ 
-    && ./configurar-proxy.sh \ 
-        --usuario "$USUARIO" \ 
-        --senha "$SENHA_PROXY" \ 
-        --host "$HOST_PROXY" \ 
-        --protocolo "$PROTOCOLO_PROXY" \ 
-        --file-name-conf-proxy "$FILE_NAME_CONF_PROXY" 
-
-COPY $SCRIPTS_DOKER_HOST/install-java.sh $SCRIPTS_DOKER/
-
-RUN find $SCRIPTS_DOKER/install-java.sh -type f  \ 
-      -exec sh -c 'tr -d "\r" < "{}" > "{}".new && mv "{}".new "{}"' -- {} \; \    
-      -exec chmod +x {} \; \    
-    && cd $SCRIPTS_DOKER \ 
-    && ./install-java.sh
 
 
-COPY $SCRIPTS_DOKER_HOST/set-version-java.sh $SCRIPTS_DOKER/
-
-ARG JAVA_VERSION="1.8"
-ENV JAVA_VERSION="$JAVA_VERSION"
-
-RUN find $SCRIPTS_DOKER/set-version-java.sh -type f  \ 
-      -exec sh -c 'tr -d "\r" < "{}" > "{}".new && mv "{}".new "{}"' -- {} \; \    
-      -exec chmod +x {} \; \    
-    && cd $SCRIPTS_DOKER \ 
-    && ./set-version-java.sh "$JAVA_VERSION"        
-
-COPY $SCRIPTS_DOKER_HOST/install-maven.sh $SCRIPTS_DOKER/
-
-RUN find $SCRIPTS_DOKER/install-maven.sh -type f  \ 
-      -exec sh -c 'tr -d "\r" < "{}" > "{}".new && mv "{}".new "{}"' -- {} \; \    
-      -exec chmod +x {} \; \    
-    && cd $SCRIPTS_DOKER \ 
-    && ./install-maven.sh
