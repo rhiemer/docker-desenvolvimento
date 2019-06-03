@@ -1,3 +1,5 @@
+/home/rodrigo.hiemer/desenvolvimento/sefaz/docker/docker-desenvolvimento/docker/imagens/base/ubuntu
+
 sudo apt-get remove chromium --purge
 rm -rf ~/.config/chromium
 rm -rf ~/.cache/chromium
