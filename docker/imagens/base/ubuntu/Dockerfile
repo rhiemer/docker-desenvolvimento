@@ -41,6 +41,13 @@ RUN find $SCRIPTS_DOKER/instalar-chrome.sh -type f  \
     && cd $SCRIPTS_DOKER \
     && ./instalar-chrome.sh  
 
+COPY $SCRIPTS_DOKER_HOST/configurar-chrome.sh $SCRIPTS_DOKER/
+
+RUN find $SCRIPTS_DOKER/configurar-chrome.sh -type f  \      
+      -exec sh -c 'tr -d "\r" < "{}" > "{}".new && mv "{}".new "{}"' -- {} \; \    
+      -exec chmod +x {} \; \    
+    && cd $SCRIPTS_DOKER \
+    && ./configurar-chrome.sh    
 
 COPY $SCRIPTS_DOKER_HOST/change-locale.sh $SCRIPTS_DOKER/
 

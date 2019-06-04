@@ -1,3 +1,18 @@
+NUMBER_LAST_LINE=$( wc -l < /usr/bin/google-chrome-stable ); sed -e ${NUMBER_LAST_LINE}'s/$/ --no-sandbox/' /usr/bin/google-chrome-stable
+
+TESTE=$(tail -1 /usr/bin/google-chrome-stable); sed -e 's/$TESTE/$TESTE --teste10029/' /usr/bin/google-chrome-stable
+tail -1 /usr/bin/google-chrome-stable | sed -e 's/$/ --teste/'
+
+
+sed '2s/$/ myalias/' file
+
+# Note: exec -a below is a bashism.
+exec -a "$0" "$HERE/chrome" "$@"
+
+/usr/bin/google-chrome-stable --no-sandbox --incognito
+
+ln -sfv /usr/share/applications/google-chrome.desktop /headless/Desktop/google-chrome.desktop
+
 /home/rodrigo.hiemer/desenvolvimento/sefaz/docker/docker-desenvolvimento/docker/imagens/base/ubuntu
 
 sudo apt-get remove chromium --purge
