@@ -20,5 +20,4 @@ FILE_EXEC="/usr/bin/google-chrome-stable"
 
 #configura o chrome para rodar como root.
 sed -i.bak "s#Exec=$FILE_EXEC#Exec=$FILE_EXEC --user-data-dir --no-sandbox #g" "$FILE_SHARE_APPS"
-cat $FILE_SHARE_APPS
 
